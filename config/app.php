@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'default_locales' => ['en', 'ar', 'fr', 'es', 'ge'],
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
