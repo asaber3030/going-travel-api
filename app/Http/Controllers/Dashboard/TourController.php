@@ -9,20 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
 
-/**
-	$tour = { 
-		"name": "asdas",
-		"description": "asdasd",
-		"translations": [
-			{ "locale": "en", "name": "asdas", "description": "asdasd" },
-			{ "locale": "ar", "name": "asdas", "description": "asdasd" },
-			{ "locale": "it", "name": "asdas", "description": "asdasd" },
-		]
-	}
-
-	$used_translation = $tour.translations.find(item => item.locale === COOKIE_VALUE)
- */
-
 class TourController extends Controller
 {
 	use PaginateResources;
@@ -173,7 +159,7 @@ class TourController extends Controller
 			'pickup_location_id' => 'sometimes|exists:locations,id',
 			'translations' => 'sometimes|array',
 			'translations.*.locale' => 'required_with:translations|string',
-			'translations.*.name' => 'required_with:translations|string|max:255',
+			'translations.*.title' => 'required_with:translations|string|max:255',
 			'translations.*.description' => 'nullable|string',
 			'translations.*.distance_description' => 'nullable|string',
 		]);
