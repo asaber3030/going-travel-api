@@ -59,9 +59,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('tours')->controller(TourController::class)->group(function () {
       Route::get('/', 'index');
       Route::get('/trashed', 'trashed');
+      Route::post('/', 'store');
 
       Route::prefix('{id}')->group(function () {
-        Route::post('/', 'store');
         Route::get('/', 'show');
         Route::post('/', 'update');
         Route::delete('/', 'destroy');
