@@ -84,7 +84,7 @@ class TourController extends Controller
 			'pickup_location_id' => 'required|exists:locations,id',
 			'translations' => 'sometimes|array',
 			'translations.*.locale' => 'required_with:translations|string',
-			'translations.*.name' => 'required_with:translations|string|max:255',
+			'translations.*.title' => 'required_with:translations|string|max:255',
 			'translations.*.description' => 'nullable|string',
 			'translations.*.distance_description' => 'nullable|string',
 		]);
