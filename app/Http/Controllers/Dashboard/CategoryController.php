@@ -53,7 +53,7 @@ class CategoryController extends Controller
     $validated = $request->validate([
       'image' => 'nullable|image|max:2048', // Max 2MB, must be image
       'translations' => 'sometimes|array', // Optional translations
-      'translations.*.language' => 'required_with:translations|string',
+      'translations.*.locale' => 'required_with:translations|string',
       'translations.*.name' => 'required_with:translations|string|max:255',
       'translations.*.description' => 'nullable|string',
     ]);
@@ -100,7 +100,7 @@ class CategoryController extends Controller
     $validated = $request->validate([
       'image' => 'sometimes|nullable|image|max:2048',
       'translations' => 'sometimes|array',
-      'translations.*.language' => 'required_with:translations|string',
+      'translations.*.locale' => 'required_with:translations|string',
       'translations.*.name' => 'required_with:translations|string|max:255',
       'translations.*.description' => 'nullable|string',
     ]);
