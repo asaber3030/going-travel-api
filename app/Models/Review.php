@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\URL;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 class Review extends BaseModel
 {
 	protected $fillable = [
@@ -19,5 +22,11 @@ class Review extends BaseModel
 	public function tour()
 	{
 		return $this->belongsTo(Tour::class);
+	}
+	protected function image(): Attribute
+	{
+		return Attribute::make(
+			get: fn(mixed $value) => URL::to($value),
+		);
 	}
 }

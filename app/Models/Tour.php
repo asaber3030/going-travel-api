@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\URL;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 class Tour extends BaseModel
 {
 	protected $fillable = [
@@ -30,7 +33,19 @@ class Tour extends BaseModel
 		'distance_description',
 	];
 
-	// 
+	protected function banner(): Attribute
+	{
+		return Attribute::make(
+			get: fn(mixed $value) => URL::to($value),
+		);
+	}
+
+	protected function thumbnail(): Attribute
+	{
+		return Attribute::make(
+			get: fn(mixed $value) => URL::to($value),
+		);
+	}
 
 	public function getNameAttribute()
 	{

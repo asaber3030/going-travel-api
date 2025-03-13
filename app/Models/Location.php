@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+
+use Illuminate\Support\Facades\URL;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 class Location extends BaseModel
 {
 	protected $fillable = [
@@ -12,4 +16,11 @@ class Location extends BaseModel
 		'updated_by',
 		'deleted_by',
 	];
+
+	protected function image(): Attribute
+	{
+		return Attribute::make(
+			get: fn(mixed $value) => URL::to($value),
+		);
+	}
 }
