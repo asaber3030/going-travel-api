@@ -72,7 +72,12 @@ class CategoryController extends Controller
 
     // Handle translations if provided
     if ($request->has('translations')) {
-      $category->translations()->createMany($request->input('translations'));
+      $translations = array_map(function ($translation) {
+        $translation['created_by'] = Auth::id();
+        $translation['updated_by'] = Auth::id();
+        return $translation;
+      }, $request->input('translations'));
+      $category->translations()->createMany($translations);
     }
 
     return sendResponse(__('messages.created_successfully'), 201, $category->load('translations'));
@@ -121,8 +126,13 @@ class CategoryController extends Controller
 
     // Handle translations if provided
     if ($request->has('translations')) {
-      $category->translations()->delete(); // Remove old translations
-      $category->translations()->createMany($request->input('translations'));
+      $category->translations()->delete();
+      $translations = array_map(function ($translation) {
+        $translation['created_by'] = Auth::id();
+        $translation['updated_by'] = Auth::id();
+        return $translation;
+      }, $request->input('translations'));
+      $category->translations()->createMany($translations);
     }
 
     return sendResponse(__('messages.updated_successfully'), 200, $category->load('translations'));
