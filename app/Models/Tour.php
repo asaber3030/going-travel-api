@@ -28,7 +28,7 @@ class Tour extends BaseModel
 	];
 
 	protected $appends = [
-		'name',
+		'title',
 		'description',
 		'distance_description',
 	];
@@ -47,9 +47,9 @@ class Tour extends BaseModel
 		);
 	}
 
-	public function getNameAttribute()
+	public function getTitleAttribute()
 	{
-		return $this->translations()->first()->name ?? '';
+		return $this->translations()->first()->title ?? '';
 	}
 
 	public function getDescriptionAttribute()
