@@ -22,12 +22,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('distance_description');
             $table->string('description');
-            $table->string('location');
-            $table->string('pickup_location');
 
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->constrained('users');
-            $table->foreignId('deleted_by')->constrained('users');
+            $table->foreignId('deleted_by')->nullable()->constrained('users');
 
             $table->softDeletes();
             $table->timestamps();
