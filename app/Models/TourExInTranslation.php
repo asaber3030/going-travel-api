@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class TourExInTranslation extends Model
+class TourExInTranslation extends BaseModel
 {
 	protected $table = 'inclusions_exclusions_translations';
 	protected $fillable = [

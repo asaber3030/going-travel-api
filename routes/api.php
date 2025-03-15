@@ -166,4 +166,6 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/{id}/restore', 'restore');
     });
   });
+
+  Route::prefix('user-interface')->group(function () {});
 });
