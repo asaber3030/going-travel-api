@@ -19,7 +19,7 @@ class TourItinerary extends BaseModel
 
 	public function translations()
 	{
-		return $this->hasMany(TourItineraryTranslation::class, 'tour_itinerary_id');
+		return $this->hasMany(TourItineraryTranslation::class, 'itinerary_id');
 	}
 
 	public function tour()

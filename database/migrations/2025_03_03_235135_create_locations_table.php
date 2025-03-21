@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('map_url');
 
             $table->foreignId('created_by')->constrained('users');

@@ -44,6 +44,20 @@ class LocationController extends Controller
     return sendResponse(__('messages.retrieved_successfully'), 200, $data);
   }
 
+  public function all(Request $request)
+  {
+    $search = $request->query('search');
+    $per_page = $request->query('per_page') ?? 20;
+    $locations = Location::query();
+
+    if ($search) {
+      $locations->where('name', 'like', "%{$search}%");
+    }
+
+    $data = $locations->take($per_page)->get();
+    return sendResponse(__('messages.retrieved_successfully'), 200, $data);
+  }
+
   public function store(Request $request)
   {
     $validated = $request->validate([
@@ -100,6 +114,8 @@ class LocationController extends Controller
       $filename = time() . '_' . $file->getClientOriginalName();
       $file->move(public_path('uploads/locations'), $filename);
       $validated['image'] = 'uploads/locations/' . $filename;
+    } else {
+      $validated['image'] = $location->image;
     }
 
     $validated['updated_by'] = Auth::id();

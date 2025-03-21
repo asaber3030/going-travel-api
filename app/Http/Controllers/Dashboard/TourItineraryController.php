@@ -62,7 +62,7 @@ class TourItineraryController extends Controller
 		$validated = $request->validate([
 			'tour_id' => 'required|exists:tours,id',
 			'day_number' => 'required|integer|min:1',
-			'image' => 'nullable|image|max:2048',
+			'image' => 'nullable|image|max:1024',
 			'meals' => 'nullable|string',
 			'overnight_location' => 'nullable|string',
 			'translations' => 'sometimes|array',

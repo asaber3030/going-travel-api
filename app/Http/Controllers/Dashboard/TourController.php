@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Tour;
+use App\Models\TourItinerary;
 use App\Traits\PaginateResources;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
+use App\Models\Review;
+use App\Models\TourExIn;
+use App\Models\TourHighlight;
+use App\Models\TourImage;
 
 class TourController extends Controller
 {
@@ -78,7 +83,6 @@ class TourController extends Controller
 			'before_you_go' => 'nullable|json',
 			'max_people' => 'required|integer|min:1',
 			'price_start' => 'required|numeric|min:0',
-			'has_offer' => 'required|boolean',
 			'category_id' => 'required|exists:categories,id',
 			'location_id' => 'required|exists:locations,id',
 			'pickup_location_id' => 'required|exists:locations,id',
@@ -109,7 +113,6 @@ class TourController extends Controller
 		$validated['location_id'] = (int)$validated['location_id'];
 		$validated['pickup_location_id'] = (int)$validated['location_id'];
 		$validated['category_id'] = (int)$validated['category_id'];
-		$validated['has_offer'] = (bool)$validated['has_offer'];
 
 		$tour = Tour::create($validated);
 
@@ -153,7 +156,6 @@ class TourController extends Controller
 			'before_you_go' => 'sometimes|nullable|string',
 			'max_people' => 'sometimes|integer|min:1',
 			'price_start' => 'sometimes|numeric|min:0',
-			'has_offer' => 'sometimes|boolean',
 			'category_id' => 'sometimes|exists:categories,id',
 			'location_id' => 'sometimes|exists:locations,id',
 			'pickup_location_id' => 'sometimes|exists:locations,id',
@@ -188,7 +190,6 @@ class TourController extends Controller
 		$validated['location_id'] = (int)$validated['location_id'];
 		$validated['pickup_location_id'] = (int)$validated['location_id'];
 		$validated['category_id'] = (int)$validated['category_id'];
-		$validated['has_offer'] = (bool)$validated['has_offer'];
 
 		$tour->update($validated);
 
@@ -301,7 +302,7 @@ class TourController extends Controller
 	{
 		$tour = Tour::find($id);
 		if (!$tour) return sendResponse(__('messages.not_found'), 404);
-		$highlights = $tour->highlights;
+		$highlights = TourHighlight::withTrashed()->orderBy('deleted_at', 'asc')->with('translations')->where('tour_id', $id)->get();
 		return sendResponse(__('messages.highlights_retrieved_successfully'), 200, $highlights);
 	}
 
@@ -309,7 +310,7 @@ class TourController extends Controller
 	{
 		$tour = Tour::find($id);
 		if (!$tour) return sendResponse(__('messages.not_found'), 404);
-		$itineraries = $tour->itineraries;
+		$itineraries = TourItinerary::withTrashed()->orderBy('deleted_at', 'asc')->with('translations')->where('tour_id', $id)->orderBy('day_number', 'asc')->get();
 		return sendResponse(__('messages.itineraries_retrieved_successfully'), 200, $itineraries);
 	}
 
@@ -317,7 +318,7 @@ class TourController extends Controller
 	{
 		$tour = Tour::find($id);
 		if (!$tour) return sendResponse(__('messages.not_found'), 404);
-		$inclusionsExclusions = $tour->inclusions_exclusions;
+		$inclusionsExclusions = TourExIn::withTrashed()->orderBy('deleted_at', 'asc')->with('translations')->where('tour_id', $id)->get();
 		return sendResponse(__('messages.inclusions_exclusions_retrieved_successfully'), 200, $inclusionsExclusions);
 	}
 
@@ -325,7 +326,15 @@ class TourController extends Controller
 	{
 		$tour = Tour::find($id);
 		if (!$tour) return sendResponse(__('messages.not_found'), 404);
-		$images = $tour->images;
+		$images = TourImage::withTrashed()->orderBy('deleted_at', 'asc')->where('tour_id', $id)->get();
 		return sendResponse(__('messages.images_retrieved_successfully'), 200, $images);
+	}
+
+	public function getReviews($id)
+	{
+		$tour = Tour::find($id);
+		if (!$tour) return sendResponse(__('messages.not_found'), 404);
+		$images = Review::withTrashed()->orderBy('deleted_at', 'asc')->where('tour_id', $id)->get();
+		return sendResponse(__('messages.reviews_retrieved_successfully'), 200, $images);
 	}
 }

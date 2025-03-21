@@ -48,7 +48,7 @@ class TourExInTranslationController extends Controller
 	public function store(Request $request)
 	{
 		$validated = $request->validate([
-			'exclusion_id' => 'required|exists:inclusions_exclusions,id',
+			'exclusion_id' => 'required|exists:tour_inclusions_exclusions,id',
 			'locale' => 'required|string',
 			'title' => 'required|string|max:255',
 		]);
@@ -82,7 +82,7 @@ class TourExInTranslationController extends Controller
 		}
 
 		$validated = $request->validate([
-			'exclusion_id' => 'sometimes|exists:inclusions_exclusions,id',
+			'exclusion_id' => 'sometimes|exists:tour_inclusions_exclusions,id',
 			'locale' => 'sometimes|string',
 			'title' => 'sometimes|string|max:255',
 		]);

@@ -15,6 +15,15 @@ class TourExIn extends BaseModel
     'deleted_by',
   ];
 
+  protected $appends = [
+    'title',
+  ];
+
+  public function getTitleAttribute()
+  {
+    return $this->translations()->first()->title ?? "N/A";
+  }
+
   public function tour()
   {
     return $this->belongsTo(Tour::class, 'tour_id');
@@ -22,6 +31,6 @@ class TourExIn extends BaseModel
 
   public function translations()
   {
-    return $this->hasMany(TourExInTranslation::class, 'tour_ex_in_id');
+    return $this->hasMany(TourExInTranslation::class, 'exclusion_id');
   }
 }

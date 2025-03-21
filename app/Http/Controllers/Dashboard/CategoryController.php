@@ -48,11 +48,27 @@ class CategoryController extends Controller
     return sendResponse(__('messages.retrieved_successfully'), 200, $data);
   }
 
+  public function all(Request $request)
+  {
+    $search = $request->query('search');
+    $per_page = $request->query('per_page') ?? 20;
+    $categories = Category::query();
+
+    if ($search) {
+      $categories->whereHas('translations', function ($q) use ($search) {
+        $q->where('name', 'like', "%{$search}%");
+      });
+    }
+
+    $data = $categories->take($per_page)->get();
+    return sendResponse(__('messages.retrieved_successfully'), 200, $data);
+  }
+
   public function store(Request $request)
   {
     $validated = $request->validate([
-      'image' => 'nullable|image|max:2048', // Max 2MB, must be image
-      'translations' => 'sometimes|array', // Optional translations
+      'image' => 'nullable|image|max:1024',
+      'translations' => 'sometimes|array',
       'translations.*.locale' => 'required_with:translations|string',
       'translations.*.name' => 'required_with:translations|string|max:255',
       'translations.*.description' => 'nullable|string',

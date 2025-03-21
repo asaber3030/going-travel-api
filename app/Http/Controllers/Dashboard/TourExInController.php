@@ -57,11 +57,10 @@ class TourExInController extends Controller
 	{
 		$validated = $request->validate([
 			'tour_id' => 'required|exists:tours,id',
-			'title' => 'required|string|max:255',
 			'type' => 'required|in:inclusion,exclusion',
 			'translations' => 'sometimes|array',
 			'translations.*.locale' => 'required_with:translations|string',
-			'translations.*.description' => 'required_with:translations|string',
+			'translations.*.title' => 'required_with:translations|string',
 		]);
 
 		$validated['created_by'] = Auth::id();
@@ -112,7 +111,7 @@ class TourExInController extends Controller
 			'type' => 'sometimes|in:inclusion,exclusion',
 			'translations' => 'sometimes|array',
 			'translations.*.locale' => 'required_with:translations|string',
-			'translations.*.description' => 'required_with:translations|string',
+			'translations.*.title' => 'required_with:translations|string',
 		]);
 
 		$validated['updated_by'] = Auth::id();

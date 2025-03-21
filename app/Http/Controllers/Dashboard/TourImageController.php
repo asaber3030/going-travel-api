@@ -55,20 +55,23 @@ class TourImageController extends Controller
   {
     $validated = $request->validate([
       'tour_id' => 'required|exists:tours,id',
-      'image_url' => 'required|image|max:2048',
+      'image' => 'required|image|max:2048',
     ]);
 
-    if ($request->hasFile('image_url')) {
-      $file = $request->file('image_url');
+    if ($request->hasFile('image')) {
+      $file = $request->file('image');
       $filename = time() . '_' . $file->getClientOriginalName();
       $file->move(public_path('uploads/tour_images'), $filename);
-      $validated['image_url'] = 'uploads/tour_images/' . $filename;
+      $validated['image'] = 'uploads/tour_images/' . $filename;
     }
 
     $validated['created_by'] = Auth::id();
     $validated['updated_by'] = Auth::id();
 
-    $image = TourImage::create($validated);
+    $image = TourImage::create([
+      'tour_id' => $validated['tour_id'],
+      'image_url' => $validated['image'],
+    ]);
 
     return sendResponse(__('messages.created_successfully'), 201, $image->load('tour'));
   }
@@ -87,9 +90,7 @@ class TourImageController extends Controller
     return sendResponse(__('messages.retrieved_successfully'), 200, $image);
   }
 
-  /**
-   * Update the specified resource in storage.
-   */
+
   public function update(Request $request, $id)
   {
     $image = TourImage::find($id);
@@ -103,20 +104,22 @@ class TourImageController extends Controller
       'image_url' => 'sometimes|image|max:2048',
     ]);
 
-    if ($request->hasFile('image_url')) {
-      // Delete the old image if it exists
-      if ($image->image_url && File::exists(public_path($image->image_url))) {
-        File::delete(public_path($image->image_url));
+    if ($request->hasFile('image')) {
+      if ($image->image && File::exists(public_path($image->image))) {
+        File::delete(public_path($image->image));
       }
-      $file = $request->file('image_url');
+      $file = $request->file('image');
       $filename = time() . '_' . $file->getClientOriginalName();
       $file->move(public_path('uploads/tour_images'), $filename);
-      $validated['image_url'] = 'uploads/tour_images/' . $filename;
+      $validated['image'] = 'uploads/tour_images/' . $filename;
     }
 
     $validated['updated_by'] = Auth::id();
 
-    $image->update($validated);
+    $image->update([
+      'tour_id' => $validated['tour_id'],
+      'image_url' => $validated['image'],
+    ]);
 
     return sendResponse(__('messages.updated_successfully'), 200, $image->load('tour'));
   }

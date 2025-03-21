@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('locations')->controller(LocationController::class)->group(function () {
       Route::get('/', 'index');
+      Route::get('/all', 'all');
       Route::get('/trashed', 'trashed');
       Route::post('/', 'store');
       Route::get('/{id}', 'show');
@@ -39,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('categories')->controller(CategoryController::class)->group(function () {
       Route::get('/', 'index');
       Route::get('/trashed', 'trashed');
+      Route::get('/all', 'all');
       Route::post('/', 'store');
       Route::get('/{id}', 'show');
       Route::post('/{id}', 'update');
@@ -72,6 +74,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('itineraries', 'getItineraries');
         Route::get('inclusions-exclusions', 'getInclusionsExclusions');
         Route::get('images', 'getImages');
+        Route::get('reviews', 'getReviews');
       });
     });
 
