@@ -14,6 +14,13 @@ if (!function_exists('sendResponse')) {
   }
 }
 
+if (!function_exists('languageExists')) {
+  function languageExists(string $locale)
+  {
+    return in_array($locale, ['en', 'ar', 'fr', 'pt', 'dt', 'es']);
+  }
+}
+
 if (!function_exists('format_date')) {
   function format_date($date, $format = 'Y-m-d')
   {

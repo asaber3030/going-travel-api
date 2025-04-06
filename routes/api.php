@@ -15,6 +15,11 @@ use App\Http\Controllers\Dashboard\TourItineraryController;
 use App\Http\Controllers\Dashboard\TourItineraryTranslationController;
 use App\Http\Controllers\Dashboard\TourExInController;
 
+use App\Http\Controllers\UI\CategoryController as UICategoryController;
+use App\Http\Controllers\UI\TourController as UITourController;
+use App\Http\Controllers\UI\LocationController as UILocationController;
+use App\Http\Controllers\UI\ReviewController as UIReviewController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthController::class)->prefix('auth')->name('auth.')->group(function () {
@@ -169,6 +174,31 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/{id}/restore', 'restore');
     });
   });
+});
 
-  Route::prefix('user-interface')->group(function () {});
+Route::prefix('ui')->group(function () {
+  Route::prefix('categories')->controller(UICategoryController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/{id}', 'show');
+    Route::get('/{id}/tours', 'category_tours');
+  });
+
+  Route::prefix('tours')->controller(UITourController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/all/paginated', 'paginated');
+    Route::get('/all/popular-tours', 'popular_tours');
+    Route::get('/{id}', 'show');
+    Route::get('/{id}/related', 'related_tours');
+  });
+
+  Route::prefix('locations')->controller(UILocationController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/{id}', 'show');
+    Route::get('/{id}/tours', 'location_tours');
+  });
+
+  Route::prefix('reviews')->controller(UIReviewController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/{id}', 'show');
+  });
 });

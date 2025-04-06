@@ -33,6 +33,7 @@ class TourController extends Controller
 		];
 
 		$queryModifier = function ($query, $request) {
+			$query->orderBy('id', 'desc');
 			if ($search = $request->query('search')) {
 				$query->whereHas('translations', function ($q) use ($search) {
 					$q->where('name', 'like', "%{$search}%")

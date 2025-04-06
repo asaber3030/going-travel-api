@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Request;
 
 class Category extends BaseModel
 {
@@ -16,6 +17,7 @@ class Category extends BaseModel
 
 	protected $appends = [
 		'name',
+		'description',
 	];
 
 	protected function image(): Attribute
@@ -27,11 +29,33 @@ class Category extends BaseModel
 
 	public function getNameAttribute()
 	{
-		return $this->translations()->first()->name ?? '';
+		$locale = Request::header('Accept-Language', config('app.locale'));
+		$language = languageExists($locale) ? $locale : 'en';
+
+		return $this->translations()
+			->where('locale', $language)
+			->pluck('name')
+			->first() ?? 'N/A';
+	}
+
+	public function getDescriptionAttribute()
+	{
+		$locale = Request::header('Accept-Language', config('app.locale'));
+		$language = languageExists($locale) ? $locale : 'en';
+
+		return $this->translations()
+			->where('locale', $language)
+			->pluck('description')
+			->first() ?? 'N/A';
 	}
 
 	public function translations()
 	{
 		return $this->hasMany(CategoryTranslation::class, 'category_id');
+	}
+
+	public function tours()
+	{
+		return $this->hasMany(Tour::class, 'category_id');
 	}
 }

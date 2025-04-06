@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Request;
 
 class TourExIn extends BaseModel
 {
@@ -21,7 +22,13 @@ class TourExIn extends BaseModel
 
   public function getTitleAttribute()
   {
-    return $this->translations()->first()->title ?? "N/A";
+    $locale = Request::header('Accept-Language', config('app.locale'));
+    $language = languageExists($locale) ? $locale : 'en';
+
+    return $this->translations()
+      ->where('locale', $language)
+      ->pluck('title')
+      ->first() ?? 'N/A';
   }
 
   public function tour()

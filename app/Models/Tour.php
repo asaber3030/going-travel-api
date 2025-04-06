@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Request;
 
 class Tour extends BaseModel
 {
@@ -49,21 +50,38 @@ class Tour extends BaseModel
 
 	public function getTitleAttribute()
 	{
-		return $this->translations()->first()->title ?? '';
+		$locale = Request::header('Accept-Language', config('app.locale'));
+		$language = languageExists($locale) ? $locale : 'en';
+
+		return $this->translations()
+			->where('locale', $language)
+			->pluck('title')
+			->first() ?? 'N/A';
 	}
 
 	public function getDescriptionAttribute()
 	{
-		return $this->translations()->first()->description ?? '';
+		$locale = Request::header('Accept-Language', config('app.locale'));
+		$language = languageExists($locale) ? $locale : 'en';
+
+		return $this->translations()
+			->where('locale', $language)
+			->pluck('description')
+			->first() ?? 'N/A';
 	}
 
 	public function getDistanceDescriptionAttribute()
 	{
-		return $this->translations()->first()->distance_description ?? '';
+		$locale = Request::header('Accept-Language', config('app.locale'));
+		$language = languageExists($locale) ? $locale : 'en';
+
+		return $this->translations()
+			->where('locale', $language)
+			->pluck('distance_description')
+			->first() ?? 'N/A';
 	}
 
 	// Relations
-
 	public function translations()
 	{
 		return $this->hasMany(TourTranslation::class, 'tour_id');
