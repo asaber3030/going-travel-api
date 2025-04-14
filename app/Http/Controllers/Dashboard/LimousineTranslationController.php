@@ -80,7 +80,6 @@ class LimousineTranslationController extends Controller
         }
 
         $validated = $request->validate([
-            'limousine_id' => 'sometimes|exists:limousines,id',
             'locale' => 'sometimes|string|max:10',
             'name' => 'sometimes|string|max:255',
             'description' => 'nullable|string',

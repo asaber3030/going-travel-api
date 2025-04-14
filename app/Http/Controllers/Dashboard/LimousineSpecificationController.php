@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\LimousineSpecification;
@@ -79,7 +80,6 @@ class LimousineSpecificationController extends Controller
         }
 
         $validated = $request->validate([
-            'limousine_id' => 'sometimes|exists:limousines,id',
             'locale' => 'sometimes|string',
             'vehicle_specifications' => 'sometimes|string',
         ]);

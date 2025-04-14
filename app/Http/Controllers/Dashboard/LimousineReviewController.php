@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\LimousineReview;
@@ -48,7 +49,6 @@ class LimousineReviewController extends Controller
     {
         $validated = $request->validate([
             'limousine_id' => 'required|exists:limousines,id',
-            'user_id' => 'required|exists:users,id',
             'reviewer_name' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'required|string',
@@ -82,7 +82,6 @@ class LimousineReviewController extends Controller
         }
 
         $validated = $request->validate([
-            'limousine_id' => 'sometimes|exists:limousines,id',
             'user_id' => 'sometimes|exists:users,id',
             'reviewer_name' => 'sometimes|string',
             'rating' => 'sometimes|integer|min:1|max:5',

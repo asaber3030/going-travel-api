@@ -38,6 +38,11 @@ class Limousine extends BaseModel
         return $this->hasMany(LimousineReview::class);
     }
 
+    public function images()
+    {
+        return $this->hasMany(LimousineImage::class);
+    }
+
     public function features()
     {
         return $this->hasMany(LimousineFeature::class);

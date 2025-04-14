@@ -139,18 +139,18 @@ class LimousineController extends Controller
 		}
 
 		$validated['updated_by'] = Auth::id();
+		$validated['location_id'] = (int)$validated['location_id'];
+		$validated['category_id'] = (int)$validated['category_id'];
 
 		$limousine->update($validated);
 
 		if ($request->has('translations')) {
 			$limousine->translations()->delete();
-			$translations = array_map(function ($t) {
-				return [
-					...$t,
-					'created_by' => Auth::id(),
-					'updated_by' => Auth::id(),
-				];
-			}, $request->translations);
+			$translations = array_map(function ($translation) {
+				$translation['created_by'] = Auth::id();
+				$translation['updated_by'] = Auth::id();
+				return $translation;
+			}, $request->input('translations'));
 			$limousine->translations()->createMany($translations);
 		}
 
@@ -224,5 +224,84 @@ class LimousineController extends Controller
 		$limousine->restore();
 
 		return sendResponse(__('messages.restored_successfully'), 200, $limousine);
+	}
+
+	// Data
+	public function reviews(Request $request, $id)
+	{
+		$limousine = Limousine::with('reviews')->find($id);
+
+		if (!$limousine) {
+			return sendResponse(__('messages.not_found'), 404);
+		}
+
+		$reviews = $limousine->reviews()->withTrashed()->with('user:id,name')->get();
+
+		return sendResponse(__('messages.retrieved_successfully'), 200, $reviews);
+	}
+
+	public function overviews(Request $request, $id)
+	{
+		$limousine = Limousine::with('overviews')->find($id);
+
+		if (!$limousine) {
+			return sendResponse(__('messages.not_found'), 404);
+		}
+
+		$overviews = $limousine->overviews()->withTrashed()->get();
+
+		return sendResponse(__('messages.retrieved_successfully'), 200, $overviews);
+	}
+
+	public function features(Request $request, $id)
+	{
+		$limousine = Limousine::with('features')->find($id);
+
+		if (!$limousine) {
+			return sendResponse(__('messages.not_found'), 404);
+		}
+
+		$features = $limousine->features()->withTrashed()->get();
+
+		return sendResponse(__('messages.retrieved_successfully'), 200, $features);
+	}
+
+	public function specifications(Request $request, $id)
+	{
+		$limousine = Limousine::with('specifications')->find($id);
+
+		if (!$limousine) {
+			return sendResponse(__('messages.not_found'), 404);
+		}
+
+		$specifications = $limousine->specifications()->withTrashed()->get();
+
+		return sendResponse(__('messages.retrieved_successfully'), 200, $specifications);
+	}
+
+	public function images(Request $request, $id)
+	{
+		$limousine = Limousine::with('images')->find($id);
+
+		if (!$limousine) {
+			return sendResponse(__('messages.not_found'), 404);
+		}
+
+		$images = $limousine->images()->withTrashed()->get();
+
+		return sendResponse(__('messages.retrieved_successfully'), 200, $images);
+	}
+
+	public function services(Request $request, $id)
+	{
+		$limousine = Limousine::with('services')->find($id);
+
+		if (!$limousine) {
+			return sendResponse(__('messages.not_found'), 404);
+		}
+
+		$services = $limousine->services()->withTrashed()->get();
+
+		return sendResponse(__('messages.retrieved_successfully'), 200, $services);
 	}
 }

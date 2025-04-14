@@ -83,7 +83,6 @@ class LimousineOverviewController extends Controller
         }
 
         $validated = $request->validate([
-            'limousine_id' => 'sometimes|exists:limousines,id',
             'locale' => 'sometimes|string|max:10',
             'about_vehicle' => 'nullable|string',
             'key_features' => 'nullable|string',

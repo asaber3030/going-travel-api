@@ -25,7 +25,7 @@ class LimousineFeatureController extends Controller
         $queryModifier = function ($query, $request) {
             if ($search = $request->query('search')) {
                 $query->where('vehicle_features', 'like', "%{$search}%")
-                      ->orWhere('additional_info', 'like', "%{$search}%");
+                    ->orWhere('additional_info', 'like', "%{$search}%");
             }
             if ($locale = $request->query('locale')) {
                 $query->where('locale', $locale);
@@ -85,7 +85,6 @@ class LimousineFeatureController extends Controller
         }
 
         $validated = $request->validate([
-            'limousine_id'     => 'sometimes|exists:limousines,id',
             'locale'           => 'sometimes|string|max:10',
             'vehicle_features' => 'nullable|string',
             'additional_info'  => 'nullable|string',
@@ -124,7 +123,7 @@ class LimousineFeatureController extends Controller
         $queryModifier = function ($query, $request) {
             if ($search = $request->query('search')) {
                 $query->where('vehicle_features', 'like', "%{$search}%")
-                      ->orWhere('additional_info', 'like', "%{$search}%");
+                    ->orWhere('additional_info', 'like', "%{$search}%");
             }
             if ($locale = $request->query('locale')) {
                 $query->where('locale', $locale);
