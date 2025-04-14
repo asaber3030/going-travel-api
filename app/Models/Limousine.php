@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Limousine extends Model
+class Limousine extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'type',
@@ -22,34 +23,43 @@ class Limousine extends Model
         'deleted_at'
     ];
 
-    // Relationships
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
-
     public function location()
     {
         return $this->belongsTo(Location::class);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(LimousineReview::class);
+    }
+
+    public function features()
+    {
+        return $this->hasMany(LimousineFeature::class);
+    }
+
+    public function services()
+    {
+        return $this->hasMany(LimousineService::class);
+    }
+
+    public function overviews()
+    {
+        return $this->hasMany(LimousineOverview::class);
+    }
+
+    public function specifications()
+    {
+        return $this->hasMany(LimousineSpecification::class);
+    }
+
     public function translations()
     {
         return $this->hasMany(LimousineTranslation::class);
-    }
-
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function deletedBy()
-    {
-        return $this->belongsTo(User::class, 'deleted_by');
     }
 }

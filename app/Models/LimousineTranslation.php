@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class LimousineTranslation extends Model
+class LimousineTranslation extends BaseModel
 {
     use HasFactory;
 
@@ -33,5 +32,4 @@ class LimousineTranslation extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
-    
 }

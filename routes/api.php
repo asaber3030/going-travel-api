@@ -178,67 +178,69 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::put('{id}', [LimousineController::class, 'update'])->name('limousines.update');
       Route::delete('{id}', [LimousineController::class, 'destroy'])->name('limousines.destroy');
       Route::get('trashed', [LimousineController::class, 'trashed'])->name('limousines.trashed');
-  });
+      Route::post('/restore/{id}', [LimousineController::class, 'restore'])->name('limousines.restore');
+    });
 
-  Route::prefix('limousine-translations')->middleware('auth')->group(function () {
-    Route::get('/', [LimousineTranslationController::class, 'index'])->name('limousine-translations.index');
-    Route::get('{id}', [LimousineTranslationController::class, 'show'])->name('limousine-translations.show');
-    Route::post('/', [LimousineTranslationController::class, 'store'])->name('limousine-translations.store');
-    Route::put('{id}', [LimousineTranslationController::class, 'update'])->name('limousine-translations.update');
-    Route::delete('{id}', [LimousineTranslationController::class, 'destroy'])->name('limousine-translations.destroy');
-    Route::get('trashed', [LimousineTranslationController::class, 'trashed'])->name('limousine-translations.trashed');
-    Route::post('restore/{id}', [LimousineTranslationController::class, 'restore'])->name('limousine-translations.restore');
-});
-Route::prefix('limousine-features')->middleware('auth')->group(function () {
-  Route::get('/', [LimousineFeatureController::class, 'index'])->name('limousine-features.index');
-  Route::get('{id}', [LimousineFeatureController::class, 'show'])->name('limousine-features.show');
-  Route::post('/', [LimousineFeatureController::class, 'store'])->name('limousine-features.store');
-  Route::put('{id}', [LimousineFeatureController::class, 'update'])->name('limousine-features.update');
-  Route::delete('{id}', [LimousineFeatureController::class, 'destroy'])->name('limousine-features.destroy');
-  Route::get('trashed', [LimousineFeatureController::class, 'trashed'])->name('limousine-features.trashed');
-  Route::post('restore/{id}', [LimousineFeatureController::class, 'restore'])->name('limousine-features.restore');
-});
+    Route::prefix('limousine-translations')->middleware('auth')->group(function () {
+      Route::get('/', [LimousineTranslationController::class, 'index'])->name('limousine-translations.index');
+      Route::get('{id}', [LimousineTranslationController::class, 'show'])->name('limousine-translations.show');
+      Route::post('/', [LimousineTranslationController::class, 'store'])->name('limousine-translations.store');
+      Route::put('{id}', [LimousineTranslationController::class, 'update'])->name('limousine-translations.update');
+      Route::delete('{id}', [LimousineTranslationController::class, 'destroy'])->name('limousine-translations.destroy');
+      Route::get('trashed', [LimousineTranslationController::class, 'trashed'])->name('limousine-translations.trashed');
+      Route::post('restore/{id}', [LimousineTranslationController::class, 'restore'])->name('limousine-translations.restore');
+    });
 
-Route::prefix('limousine-overviews')->middleware('auth')->group(function () {
-  Route::get('/', [LimousineOverviewController::class, 'index'])->name('limousine-overviews.index');
-  Route::get('{id}', [LimousineOverviewController::class, 'show'])->name('limousine-overviews.show');
-  Route::post('/', [LimousineOverviewController::class, 'store'])->name('limousine-overviews.store');
-  Route::put('{id}', [LimousineOverviewController::class, 'update'])->name('limousine-overviews.update');
-  Route::delete('{id}', [LimousineOverviewController::class, 'destroy'])->name('limousine-overviews.destroy');
-  Route::get('trashed', [LimousineOverviewController::class, 'trashed'])->name('limousine-overviews.trashed');
-  Route::put('restore/{id}', [LimousineOverviewController::class, 'restore'])->name('limousine-overviews.restore');
-});
+    Route::prefix('limousine-features')->middleware('auth')->group(function () {
+      Route::get('/', [LimousineFeatureController::class, 'index'])->name('limousine-features.index');
+      Route::get('{id}', [LimousineFeatureController::class, 'show'])->name('limousine-features.show');
+      Route::post('/', [LimousineFeatureController::class, 'store'])->name('limousine-features.store');
+      Route::put('{id}', [LimousineFeatureController::class, 'update'])->name('limousine-features.update');
+      Route::delete('{id}', [LimousineFeatureController::class, 'destroy'])->name('limousine-features.destroy');
+      Route::get('trashed', [LimousineFeatureController::class, 'trashed'])->name('limousine-features.trashed');
+      Route::post('restore/{id}', [LimousineFeatureController::class, 'restore'])->name('limousine-features.restore');
+    });
 
-Route::prefix('limousine-services')->middleware('auth')->group(function () {
-  Route::get('/', [LimousineServiceController::class, 'index'])->name('limousine-services.index');
-  Route::get('{id}', [LimousineServiceController::class, 'show'])->name('limousine-services.show');
-  Route::post('/', [LimousineServiceController::class, 'store'])->name('limousine-services.store');
-  Route::put('{id}', [LimousineServiceController::class, 'update'])->name('limousine-services.update');
-  Route::delete('{id}', [LimousineServiceController::class, 'destroy'])->name('limousine-services.destroy');
-  Route::get('trashed', [LimousineServiceController::class, 'trashed'])->name('limousine-services.trashed');
-  Route::put('restore/{id}', [LimousineServiceController::class, 'restore'])->name('limousine-services.restore');
-});
+    Route::prefix('limousine-overviews')->middleware('auth')->group(function () {
+      Route::get('/', [LimousineOverviewController::class, 'index'])->name('limousine-overviews.index');
+      Route::get('{id}', [LimousineOverviewController::class, 'show'])->name('limousine-overviews.show');
+      Route::post('/', [LimousineOverviewController::class, 'store'])->name('limousine-overviews.store');
+      Route::put('{id}', [LimousineOverviewController::class, 'update'])->name('limousine-overviews.update');
+      Route::delete('{id}', [LimousineOverviewController::class, 'destroy'])->name('limousine-overviews.destroy');
+      Route::get('trashed', [LimousineOverviewController::class, 'trashed'])->name('limousine-overviews.trashed');
+      Route::put('restore/{id}', [LimousineOverviewController::class, 'restore'])->name('limousine-overviews.restore');
+    });
+
+    Route::prefix('limousine-services')->middleware('auth')->group(function () {
+      Route::get('/', [LimousineServiceController::class, 'index'])->name('limousine-services.index');
+      Route::get('{id}', [LimousineServiceController::class, 'show'])->name('limousine-services.show');
+      Route::post('/', [LimousineServiceController::class, 'store'])->name('limousine-services.store');
+      Route::put('{id}', [LimousineServiceController::class, 'update'])->name('limousine-services.update');
+      Route::delete('{id}', [LimousineServiceController::class, 'destroy'])->name('limousine-services.destroy');
+      Route::get('trashed', [LimousineServiceController::class, 'trashed'])->name('limousine-services.trashed');
+      Route::put('restore/{id}', [LimousineServiceController::class, 'restore'])->name('limousine-services.restore');
+    });
 
 
-Route::prefix('limousine-specifications')->middleware('auth')->group(function () {
-  Route::get('/', [LimousineSpecificationController::class, 'index'])->name('limousine-specifications.index');
-  Route::get('{id}', [LimousineSpecificationController::class, 'show'])->name('limousine-specifications.show');
-  Route::post('/', [LimousineSpecificationController::class, 'store'])->name('limousine-specifications.store');
-  Route::put('{id}', [LimousineSpecificationController::class, 'update'])->name('limousine-specifications.update');
-  Route::delete('{id}', [LimousineSpecificationController::class, 'destroy'])->name('limousine-specifications.destroy');
-  Route::get('trashed', [LimousineSpecificationController::class, 'trashed'])->name('limousine-specifications.trashed');
-  Route::put('restore/{id}', [LimousineSpecificationController::class, 'restore'])->name('limousine-specifications.restore');
-});
+    Route::prefix('limousine-specifications')->middleware('auth')->group(function () {
+      Route::get('/', [LimousineSpecificationController::class, 'index'])->name('limousine-specifications.index');
+      Route::get('{id}', [LimousineSpecificationController::class, 'show'])->name('limousine-specifications.show');
+      Route::post('/', [LimousineSpecificationController::class, 'store'])->name('limousine-specifications.store');
+      Route::put('{id}', [LimousineSpecificationController::class, 'update'])->name('limousine-specifications.update');
+      Route::delete('{id}', [LimousineSpecificationController::class, 'destroy'])->name('limousine-specifications.destroy');
+      Route::get('trashed', [LimousineSpecificationController::class, 'trashed'])->name('limousine-specifications.trashed');
+      Route::put('restore/{id}', [LimousineSpecificationController::class, 'restore'])->name('limousine-specifications.restore');
+    });
 
-Route::prefix('limousine-reviews')->middleware('auth')->group(function () {
-  Route::get('/', [LimousineReviewController::class, 'index'])->name('limousine-reviews.index');
-  Route::get('{id}', [LimousineReviewController::class, 'show'])->name('limousine-reviews.show');
-  Route::post('/', [LimousineReviewController::class, 'store'])->name('limousine-reviews.store');
-  Route::put('{id}', [LimousineReviewController::class, 'update'])->name('limousine-reviews.update');
-  Route::delete('{id}', [LimousineReviewController::class, 'destroy'])->name('limousine-reviews.destroy');
-  Route::get('trashed', [LimousineReviewController::class, 'trashed'])->name('limousine-reviews.trashed');
-  Route::put('restore/{id}', [LimousineReviewController::class, 'restore'])->name('limousine-reviews.restore');
-});
+    Route::prefix('limousine-reviews')->middleware('auth')->group(function () {
+      Route::get('/', [LimousineReviewController::class, 'index'])->name('limousine-reviews.index');
+      Route::get('{id}', [LimousineReviewController::class, 'show'])->name('limousine-reviews.show');
+      Route::post('/', [LimousineReviewController::class, 'store'])->name('limousine-reviews.store');
+      Route::put('{id}', [LimousineReviewController::class, 'update'])->name('limousine-reviews.update');
+      Route::delete('{id}', [LimousineReviewController::class, 'destroy'])->name('limousine-reviews.destroy');
+      Route::get('trashed', [LimousineReviewController::class, 'trashed'])->name('limousine-reviews.trashed');
+      Route::put('restore/{id}', [LimousineReviewController::class, 'restore'])->name('limousine-reviews.restore');
+    });
 
 
     Route::prefix('tour-inclusions-exclusions-translations')->controller(TourExInTranslationController::class)->group(function () {

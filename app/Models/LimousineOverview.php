@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LimousineOverview extends Model
+class LimousineOverview extends BaseModel
 {
     use SoftDeletes;
 
@@ -29,20 +29,5 @@ class LimousineOverview extends Model
     public function limousine()
     {
         return $this->belongsTo(Limousine::class, 'limousine_id');
-    }
-
-    public function created_by()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function updated_by()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function deleted_by()
-    {
-        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
