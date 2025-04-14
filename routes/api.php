@@ -27,6 +27,7 @@ use App\Http\Controllers\UI\CategoryController as UICategoryController;
 use App\Http\Controllers\UI\TourController as UITourController;
 use App\Http\Controllers\UI\LocationController as UILocationController;
 use App\Http\Controllers\UI\ReviewController as UIReviewController;
+use App\Http\Controllers\UI\LimousineController as UILimousineController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -289,10 +290,9 @@ Route::prefix('ui')->group(function () {
     Route::get('/{id}/related', 'related_tours');
   });
 
-  Route::prefix('limousines')->controller(UITourController::class)->group(function () {
+  Route::prefix('limousines')->controller(UILimousineController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/{id}', 'show');
-    Route::get('/{id}/related', 'related_tours');
   });
 
   Route::prefix('locations')->controller(UILocationController::class)->group(function () {

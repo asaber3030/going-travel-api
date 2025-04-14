@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Limousine extends BaseModel
@@ -22,6 +21,21 @@ class Limousine extends BaseModel
         'deleted_by',
         'deleted_at'
     ];
+
+    protected $appends = [
+        'name',
+        'description',
+    ];
+
+    public function getNameAttribute()
+    {
+        return $this->translations()->first()->name ?? 'N/A';
+    }
+
+    public function getDescriptionAttribute()
+    {
+        return $this->translations()->first()->description ?? 'N/A';
+    }
 
     public function location()
     {

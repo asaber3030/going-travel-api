@@ -14,23 +14,9 @@ class LimousineController extends Controller
 		$orderBy = $request->query('order_by', 'id');
 		$order = $request->query('order', 'desc');
 
-		// Filter by type (multiple types)
-		$types = $request->query('type');
-		if ($types) {
-			$typesArray = is_array($types) ? $types : explode(',', $types);
-			$query->whereIn('type', $typesArray);
-		}
-
-		// Filter by max_passengers
-		$maxPassengers = $request->query('max_passengers');
-		if ($maxPassengers) {
-			$query->where('max_passengers', '<=', $maxPassengers);
-		}
-
 		$limousines = $query
-			->withCount('reviews')
-
 			->with('reviews', 'features', 'specifications', 'overviews', 'services', 'translations')
+			->withCount('reviews')
 			->orderBy($orderBy, $order)
 			->paginate();
 
@@ -40,11 +26,7 @@ class LimousineController extends Controller
 	public function show($id)
 	{
 		$limousine = Limousine::with('reviews', 'translations', 'features', 'specifications', 'overviews', 'services')->find($id);
-
-		if (!$limousine) {
-			return sendResponse(__('messages.not_found'), 404);
-		}
-
+		if (!$limousine) return sendResponse(__('messages.not_found'), 404);
 		return sendResponse(__('messages.retrieved_successfully'), 200, $limousine);
 	}
 }
