@@ -21,6 +21,9 @@ use App\Http\Controllers\Dashboard\LimousineOverviewController;
 use App\Http\Controllers\Dashboard\LimousineServiceController;
 use App\Http\Controllers\Dashboard\LimousineSpecificationController;
 use App\Http\Controllers\Dashboard\LimousineReviewController;
+use App\Http\Controllers\Dashboard\HotelController;
+use App\Http\Controllers\Dashboard\HotelTranslationController;
+use App\Http\Controllers\UI\HotelController as UIHotelController ;
 
 use App\Http\Controllers\UI\CategoryController as UICategoryController;
 use App\Http\Controllers\UI\TourController as UITourController;
@@ -240,6 +243,25 @@ Route::prefix('limousine-reviews')->middleware('auth')->group(function () {
   Route::put('restore/{id}', [LimousineReviewController::class, 'restore'])->name('limousine-reviews.restore');
 });
 
+Route::prefix('hotels')->middleware('auth')->group(function () {
+  Route::get('/', [HotelController::class, 'index'])->name('hotels.index');
+  Route::get('{id}', [HotelController::class, 'show'])->name('hotels.show');
+  Route::post('/', [HotelController::class, 'store'])->name('hotels.store');
+  Route::put('{id}', [HotelController::class, 'update'])->name('hotels.update');
+  Route::delete('{id}', [HotelController::class, 'destroy'])->name('hotels.destroy');
+  Route::get('trashed', [HotelController::class, 'trashed'])->name('hotels.trashed');
+  Route::post('restore/{id}', [HotelController::class, 'restore'])->name('hotels.restore');
+});
+
+Route::prefix('hotel-translations')->middleware('auth')->group(function () {
+  Route::get('/', [HotelTranslationController::class, 'index'])->name('hotel-translations.index');
+  Route::get('{id}', [HotelTranslationController::class, 'show'])->name('hotel-translations.show');
+  Route::post('/', [HotelTranslationController::class, 'store'])->name('hotel-translations.store');
+  Route::put('{id}', [HotelTranslationController::class, 'update'])->name('hotel-translations.update');
+  Route::delete('{id}', [HotelTranslationController::class, 'destroy'])->name('hotel-translations.destroy');
+  Route::get('trashed', [HotelTranslationController::class, 'trashed'])->name('hotel-translations.trashed');
+  Route::post('restore/{id}', [HotelTranslationController::class, 'restore'])->name('hotel-translations.restore');
+});
 
     Route::prefix('tour-inclusions-exclusions-translations')->controller(TourExInTranslationController::class)->group(function () {
       Route::get('/', 'index');
@@ -278,4 +300,13 @@ Route::prefix('ui')->group(function () {
     Route::get('/', 'index');
     Route::get('/{id}', 'show');
   });
+  Route::prefix('hotels')->controller(HotelController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/all/paginated', 'paginated');
+    Route::get('/{id}', 'show');
+    Route::post('/', 'store');
+    Route::put('/{id}', 'update');
+    Route::delete('/{id}', 'destroy');
+});
+
 });
