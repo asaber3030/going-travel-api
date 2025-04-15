@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Limousine extends BaseModel
 {
@@ -26,6 +28,13 @@ class Limousine extends BaseModel
         'name',
         'description',
     ];
+
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn(mixed $value) => URL::to($value),
+        );
+    }
 
     public function getNameAttribute()
     {

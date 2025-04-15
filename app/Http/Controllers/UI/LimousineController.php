@@ -25,7 +25,9 @@ class LimousineController extends Controller
 
 	public function show($id)
 	{
-		$limousine = Limousine::with('reviews', 'translations', 'features', 'specifications', 'overviews', 'services')->find($id);
+		$limousine = Limousine::with('reviews', 'translations', 'images', 'features', 'specifications', 'overviews', 'services')
+			->withCount('reviews')
+			->find($id);
 		if (!$limousine) return sendResponse(__('messages.not_found'), 404);
 		return sendResponse(__('messages.retrieved_successfully'), 200, $limousine);
 	}
