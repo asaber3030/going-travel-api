@@ -24,8 +24,9 @@ use App\Http\Controllers\Dashboard\LimousineSpecificationController;
 use App\Http\Controllers\Dashboard\LimousineReviewController;
 use App\Http\Controllers\Dashboard\HotelController;
 use App\Http\Controllers\Dashboard\HotelTranslationController;
+use App\Http\Controllers\Dashboard\StatisticsController;
 use App\Http\Controllers\UI\HotelController as UIHotelController ;
-
+use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\UI\CategoryController as UICategoryController;
 use App\Http\Controllers\UI\TourController as UITourController;
 use App\Http\Controllers\UI\LocationController as UILocationController;
@@ -43,6 +44,8 @@ Route::controller(AuthController::class)->prefix('auth')->name('auth.')->group(f
 
 Route::middleware('auth:sanctum')->group(function () {
   Route::prefix('admin')->name('admin.')->group(function () {
+
+    Route::post('/statistics', [StatisticsController::class, 'index'])->name('dashboard.statistics');
     Route::prefix('locations')->controller(LocationController::class)->group(function () {
       Route::get('/', 'index');
       Route::get('/all', 'all');
@@ -74,6 +77,16 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::delete('/{id}', 'destroy');
       Route::post('/{id}/restore', 'restore');
     });
+
+    Route::prefix('users')->middleware('auth')->group(function () {
+      Route::get('/', [UserController::class, 'index'])->name('users.index');
+      Route::get('{id}', [UserController::class, 'show'])->name('users.show');
+      Route::post('/', [UserController::class, 'store'])->name('users.store');
+      Route::put('{id}', [UserController::class, 'update'])->name('users.update');
+      Route::delete('{id}', [UserController::class, 'destroy'])->name('users.destroy');
+      Route::get('trashed', [UserController::class, 'trashed'])->name('users.trashed');
+      Route::post('all', [UserController::class, 'allUsers'])->name('users.all');
+  });
 
     Route::prefix('tours')->controller(TourController::class)->group(function () {
       Route::get('/', 'index');
