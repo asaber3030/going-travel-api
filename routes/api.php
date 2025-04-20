@@ -45,7 +45,7 @@ Route::controller(AuthController::class)->prefix('auth')->name('auth.')->group(f
 Route::middleware('auth:sanctum')->group(function () {
   Route::prefix('admin')->name('admin.')->group(function () {
 
-    Route::post('/statistics', [StatisticsController::class, 'index'])->name('dashboard.statistics');
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('dashboard.statistics');
     Route::prefix('locations')->controller(LocationController::class)->group(function () {
       Route::get('/', 'index');
       Route::get('/all', 'all');
@@ -85,7 +85,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::put('{id}', [UserController::class, 'update'])->name('users.update');
       Route::delete('{id}', [UserController::class, 'destroy'])->name('users.destroy');
       Route::get('trashed', [UserController::class, 'trashed'])->name('users.trashed');
-      Route::post('all', [UserController::class, 'allUsers'])->name('users.all');
+      Route::get('all', [UserController::class, 'allUsers'])->name('users.all'); //testing purpose
   });
 
     Route::prefix('tours')->controller(TourController::class)->group(function () {
