@@ -129,6 +129,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('hajs')->group(function () {
+      Route::get('/', [HajController::class, 'index'])->name('hajs.index');
       Route::get('{id}', [HajController::class, 'show'])->name('hajs.show');
       Route::post('/', [HajController::class, 'store'])->name('hajs.store');
       Route::post('{id}', [HajController::class, 'update'])->name('hajs.update');
@@ -339,7 +340,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/', [HotelController::class, 'index'])->name('hotels.index');
       Route::get('{id}', [HotelController::class, 'show'])->name('hotels.show');
       Route::post('/', [HotelController::class, 'store'])->name('hotels.store');
-      Route::put('{id}', [HotelController::class, 'update'])->name('hotels.update');
+      Route::post('{id}', [HotelController::class, 'update'])->name('hotels.update');
       Route::delete('{id}', [HotelController::class, 'destroy'])->name('hotels.destroy');
       Route::get('trashed', [HotelController::class, 'trashed'])->name('hotels.trashed');
       Route::post('restore/{id}', [HotelController::class, 'restore'])->name('hotels.restore');

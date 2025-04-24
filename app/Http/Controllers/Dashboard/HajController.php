@@ -14,14 +14,14 @@ class HajController extends Controller
 	public function index()
 	{
 		$haj = Haj::orderBy('id', 'desc')->paginate();
-		return sendResponse(200, 'Haj', $haj);
+		return sendResponse('Haj', 200, $haj);
 	}
 
 	public function show($id)
 	{
 		$haj = Haj::with('days')->find($id);
 		if (!$haj) return sendResponse(404, 'Haj not found');
-		return sendResponse(200, 'Haj', $haj);
+		return sendResponse('Haj', 200, $haj);
 	}
 
 	public function store(Request $request)

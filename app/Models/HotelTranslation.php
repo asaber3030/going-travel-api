@@ -9,8 +9,15 @@ class HotelTranslation extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'hotel_id', 'locale', 'name', 'description',
-        'created_by', 'updated_by'
+        'hotel_id',
+        'locale',
+        'name',
+        'description',
+        'short_description',
+        'address',
+        'policy',
+        'room_types',
+        'slug'
     ];
 
     public function hotel()

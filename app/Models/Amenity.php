@@ -9,6 +9,8 @@ class Amenity extends Model
 {
     use HasFactory;
 
+    protected $table = 'amenity';
+
     protected $fillable = [
         'hotel_id',
         'free_wifi',

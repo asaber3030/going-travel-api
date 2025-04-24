@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\Request;
 
 class Hotel extends Model
@@ -14,6 +16,11 @@ class Hotel extends Model
 		'image',
 		'location_id',
 		'category_id',
+		'status',
+		'price',
+		'stars',
+		'banner',
+		'thumbnail',
 		'created_by',
 		'updated_by',
 		'deleted_by'
@@ -30,6 +37,20 @@ class Hotel extends Model
 		'room_types',
 		'slug',
 	];
+
+	protected function banner(): Attribute
+	{
+		return Attribute::make(
+			get: fn(mixed $value) => URL::to($value),
+		);
+	}
+
+	protected function thumbnail(): Attribute
+	{
+		return Attribute::make(
+			get: fn(mixed $value) => URL::to($value),
+		);
+	}
 
 	public function getNameAttribute()
 	{
