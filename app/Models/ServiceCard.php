@@ -24,16 +24,26 @@ class ServiceCard extends Model
 
   public function getTitleAttribute()
   {
+    $preferredLang = request()->header('Accept-Language') ?? 'en';
+
     return $this->translations()
+      ->where('locale', $preferredLang)
       ->pluck('title')
-      ->first() ?? 'N/A';
+      ->first()
+      ?? $this->translations()->where('locale', 'en')->pluck('title')->first()
+      ?? 'N/A';
   }
 
   public function getDescriptionAttribute()
   {
+    $preferredLang = request()->header('Accept-Language') ?? 'en';
+
     return $this->translations()
+      ->where('locale', $preferredLang)
       ->pluck('description')
-      ->first() ?? 'N/A';
+      ->first()
+      ?? $this->translations()->where('locale', 'en')->pluck('description')->first()
+      ?? 'N/A';
   }
 
 
