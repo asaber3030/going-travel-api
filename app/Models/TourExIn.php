@@ -22,13 +22,14 @@ class TourExIn extends BaseModel
 
   public function getTitleAttribute()
   {
-    $locale = Request::header('Accept-Language', config('app.locale'));
-    $language = languageExists($locale) ? $locale : 'en';
+    $preferredLang = request()->header('Accept-Language') ?? 'en';
 
     return $this->translations()
-      ->where('locale', $language)
+      ->where('locale', $preferredLang)
       ->pluck('title')
-      ->first() ?? 'N/A';
+      ->first()
+      ?? $this->translations()->where('locale', 'en')->pluck('title')->first()
+      ?? 'N/A';
   }
 
   public function tour()

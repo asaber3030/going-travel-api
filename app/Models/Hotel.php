@@ -54,58 +54,88 @@ class Hotel extends Model
 
 	public function getNameAttribute()
 	{
-		return $this->translations()
+		$preferredLang = request()->header('Accept-Language') ?? 'en';
 
+		return $this->translations()
+			->where('locale', $preferredLang)
 			->pluck('name')
-			->first() ?? 'N/A';
+			->first()
+			?? $this->translations()->where('locale', 'en')->pluck('name')->first()
+			?? 'N/A';
 	}
 
 	public function getDescriptionAttribute()
 	{
+		$preferredLang = request()->header('Accept-Language') ?? 'en';
+
 		return $this->translations()
+			->where('locale', $preferredLang)
 			->pluck('description')
-			->first() ?? 'N/A';
+			->first()
+			?? $this->translations()->where('locale', 'en')->pluck('description')->first()
+			?? 'N/A';
 	}
 
 	public function getAddressAttribute()
 	{
 
+		$preferredLang = request()->header('Accept-Language') ?? 'en';
+
 		return $this->translations()
+			->where('locale', $preferredLang)
 			->pluck('address')
-			->first() ?? 'N/A';
+			->first()
+			?? $this->translations()->where('locale', 'en')->pluck('address')->first()
+			?? 'N/A';
 	}
 
 	public function getSlugAttribute()
 	{
-		return $this->translations()
+		$preferredLang = request()->header('Accept-Language') ?? 'en';
 
+		return $this->translations()
+			->where('locale', $preferredLang)
 			->pluck('slug')
-			->first() ?? 'N/A';
+			->first()
+			?? $this->translations()->where('locale', 'en')->pluck('slug')->first()
+			?? 'N/A';
 	}
 
 	public function getShortDescriptionAttribute()
 	{
-		return $this->translations()
+		$preferredLang = request()->header('Accept-Language') ?? 'en';
 
+		return $this->translations()
+			->where('locale', $preferredLang)
 			->pluck('short_description')
-			->first() ?? 'N/A';
+			->first()
+			?? $this->translations()->where('locale', 'en')->pluck('short_description')->first()
+			?? 'N/A';
 	}
 
 	public function getPolicyAttribute()
 	{
-		return $this->translations()
+		$preferredLang = request()->header('Accept-Language') ?? 'en';
 
+		return $this->translations()
+			->where('locale', $preferredLang)
 			->pluck('policy')
-			->first() ?? 'N/A';
+			->first()
+			?? $this->translations()->where('locale', 'en')->pluck('policy')->first()
+			?? 'N/A';
 	}
 
 
 	public function getRoomTypesAttribute()
 	{
-		return $this->translations()
+		$preferredLang = request()->header('Accept-Language') ?? 'en';
 
+		return $this->translations()
+			->where('locale', $preferredLang)
 			->pluck('room_types')
-			->first() ?? 'N/A';
+			->first()
+			?? $this->translations()->where('locale', 'en')->pluck('room_types')->first()
+			?? 'N/A';
 	}
 
 	public function reviews()

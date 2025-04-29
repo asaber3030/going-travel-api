@@ -29,24 +29,26 @@ class Category extends BaseModel
 
 	public function getNameAttribute()
 	{
-		$locale = Request::header('Accept-Language', config('app.locale'));
-		$language = languageExists($locale) ? $locale : 'en';
+		$preferredLang = request()->header('Accept-Language') ?? 'en';
 
 		return $this->translations()
-			->where('locale', $language)
+			->where('locale', $preferredLang)
 			->pluck('name')
-			->first() ?? 'N/A';
+			->first()
+			?? $this->translations()->where('locale', 'en')->pluck('name')->first()
+			?? 'N/A';
 	}
 
 	public function getDescriptionAttribute()
 	{
-		$locale = Request::header('Accept-Language', config('app.locale'));
-		$language = languageExists($locale) ? $locale : 'en';
+		$preferredLang = request()->header('Accept-Language') ?? 'en';
 
 		return $this->translations()
-			->where('locale', $language)
+			->where('locale', $preferredLang)
 			->pluck('description')
-			->first() ?? 'N/A';
+			->first()
+			?? $this->translations()->where('locale', 'en')->pluck('description')->first()
+			?? 'N/A';
 	}
 
 	public function translations()

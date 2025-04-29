@@ -38,12 +38,26 @@ class Limousine extends BaseModel
 
     public function getNameAttribute()
     {
-        return $this->translations()->first()->name ?? 'N/A';
+        $preferredLang = request()->header('Accept-Language') ?? 'en';
+
+        return $this->translations()
+            ->where('locale', $preferredLang)
+            ->pluck('name')
+            ->first()
+            ?? $this->translations()->where('locale', 'en')->pluck('name')->first()
+            ?? 'N/A';
     }
 
     public function getDescriptionAttribute()
     {
-        return $this->translations()->first()->description ?? 'N/A';
+        $preferredLang = request()->header('Accept-Language') ?? 'en';
+
+        return $this->translations()
+            ->where('locale', $preferredLang)
+            ->pluck('description')
+            ->first()
+            ?? $this->translations()->where('locale', 'en')->pluck('description')->first()
+            ?? 'N/A';
     }
 
     public function location()
