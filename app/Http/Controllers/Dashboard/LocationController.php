@@ -63,7 +63,7 @@ class LocationController extends Controller
     $validated = $request->validate([
       'name' => 'required|string|max:255',
       'image' => 'nullable|image|max:1024',
-      'map_url' => 'nullable|url'
+
     ]);
 
     if ($request->hasFile('image')) {
@@ -103,7 +103,6 @@ class LocationController extends Controller
     $validated = $request->validate([
       'name' => 'sometimes|string|max:255',
       'image' => 'sometimes|nullable|image|max:1024',
-      'map_url' => 'sometimes|nullable|url'
     ]);
 
     if ($request->hasFile('image')) {

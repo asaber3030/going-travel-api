@@ -51,7 +51,6 @@ class HotelController extends Controller
 			'translations.*.policy' => 'required|string',
 			'translations.*.slug' => 'required|string',
 			'translations.*.room_types' => 'required|string',
-			'amenity.*' => 'required|string',
 			'amenity.free_wifi' => 'sometimes|string',
 			'amenity.spa_wellness_center' => 'sometimes|string',
 			'amenity.fitness_center' => 'sometimes|string',
