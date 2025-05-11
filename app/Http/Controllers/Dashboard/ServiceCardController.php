@@ -26,7 +26,7 @@ class ServiceCardController extends Controller
 		$validated = $request->validate([
 			'image' => 'nullable|image|max:1024',
 			'key' => 'required|string|unique:service_cards,key',
-			'enabled' => 'sometimes|boolean',
+			'enabled' => 'required|in:yes,no',
 			'url' => 'nullable|string',
 			'translations' => 'sometimes|array',
 			'translations.*.locale' => 'required_with:translations|string',
@@ -41,7 +41,14 @@ class ServiceCardController extends Controller
 			$validated['image'] = 'uploads/service_cards/' . $filename;
 		}
 
-		$serviceCard = ServiceCard::create($validated);
+		$serviceCard = ServiceCard::create([
+			'key' => $request->input('key'),
+			'enabled' => $request->input('enabled') == 'yes' ? 1 : 0,
+			'url' => $request->input('url'),
+			'image' => $validated['image'] ?? null,
+			'created_by' => Auth::id(),
+			'updated_by' => Auth::id(),
+		]);
 
 		if ($request->has('translations')) {
 			$translations = array_map(function ($translation) {

@@ -136,7 +136,15 @@ class HotelController extends Controller
 			'translations.*.room_types' => 'sometimes|string',
 			'translations.*.policy' => 'sometimes|string',
 			'translations.*.slug' => 'sometimes|string',
-
+			'amenity.free_wifi' => 'required|string',
+			'amenity.spa_wellness_center' => 'required|string',
+			'amenity.fitness_center' => 'required|string',
+			'amenity.gourmet_restaurant' => 'required|string',
+			'amenity.indoor_outdoor_pools' => 'required|string',
+			'amenity.air_conditioning' => 'required|string',
+			'amenity.flat_screen_tv' => 'required|string',
+			'amenity.free_parking' => 'required|string',
+			'amenity.front_desk_24h' => 'required|string',
 		]);
 
 		if ($request->hasFile('thumbnail')) {
@@ -168,6 +176,22 @@ class HotelController extends Controller
 					'slug' => $translation['slug'] ?? null,
 				]);
 			}
+		}
+
+		if ($request->has('amenity')) {
+			$hotel->amenity()->delete();
+			Amenity::create([
+				'free_wifi' => $request->input('amenity.free_wifi') == 'yes' ? 1 : 0,
+				'spa_wellness_center' => $request->input('amenity.spa_wellness_center') == 'yes' ? 1 : 0,
+				'fitness_center' => $request->input('amenity.fitness_center') == 'yes' ? 1 : 0,
+				'gourmet_restaurant' => $request->input('amenity.gourmet_restaurant') == 'yes' ? 1 : 0,
+				'indoor_outdoor_pools' => $request->input('amenity.indoor_outdoor_pools') == 'yes' ? 1 : 0,
+				'air_conditioning' => $request->input('amenity.air_conditioning') == 'yes' ? 1 : 0,
+				'flat_screen_tv' => $request->input('amenity.flat_screen_tv') == 'yes' ? 1 : 0,
+				'free_parking' => $request->input('amenity.free_parking') == 'yes' ? 1 : 0,
+				'front_desk_24h' => $request->input('amenity.front_desk_24h') == 'yes' ? 1 : 0,
+				'hotel_id' => $hotel->id
+			]);
 		}
 
 		$validated['updated_by'] = Auth::id();

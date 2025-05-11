@@ -30,7 +30,7 @@ class StatisticsController extends Controller
 
         return response()->json([
             'message' => __('messages.retrieved_successfully'),
-            'status_code' => 200,
+            'status' => 200,
             'data' => $statistics,
         ]);
     }
