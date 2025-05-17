@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Facades\Request;
 
 class Hotel extends Model
 {
@@ -63,6 +62,8 @@ class Hotel extends Model
 			?? $this->translations()->where('locale', 'en')->pluck('name')->first()
 			?? 'N/A';
 	}
+
+
 
 	public function getDescriptionAttribute()
 	{

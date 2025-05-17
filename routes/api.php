@@ -34,6 +34,7 @@ use App\Http\Controllers\Dashboard\StatisticsController;
 use App\Http\Controllers\UI\HotelController as UIHotelController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\UI\CategoryController as UICategoryController;
+use App\Http\Controllers\UI\EmailController;
 use App\Http\Controllers\UI\TourController as UITourController;
 use App\Http\Controllers\UI\LocationController as UILocationController;
 use App\Http\Controllers\UI\ReviewController as UIReviewController;
@@ -416,12 +417,12 @@ Route::prefix('ui')->group(function () {
     Route::get('by-group/{group}', 'get_by_group');
   });
 
-  Route::prefix('hotels')->controller(HotelController::class)->group(function () {
+  Route::prefix('hotels')->controller(UIHotelController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/all/paginated', 'paginated');
-    Route::get('/{id}', 'show');
-    Route::post('/', 'store');
-    Route::put('/{id}', 'update');
-    Route::delete('/{id}', 'destroy');
   });
 });
+
+Route::get('hotel-ui/{hotel_id}', [UIHotelController::class, 'show'])->name('hotel-ui.show');
+
+Route::post('/send-email', [EmailController::class, 'send']);

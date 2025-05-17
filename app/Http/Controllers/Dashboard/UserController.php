@@ -13,6 +13,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $query = User::query()->latest();
+        $query->where('id', '!=', Auth::user()->id);
 
         if ($search = $request->query('search')) {
             $query->where(function ($q) use ($search) {

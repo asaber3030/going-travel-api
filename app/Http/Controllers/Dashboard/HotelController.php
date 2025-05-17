@@ -28,6 +28,7 @@ class HotelController extends Controller
 			'include_translations' => 'translations:hotel_id,locale,name',
 		];
 
+
 		$data = $this->paginateResources($request, $relationships);
 
 		return sendResponse(__('messages.retrieved_successfully'), 200, $data);
