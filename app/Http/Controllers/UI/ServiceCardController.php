@@ -9,27 +9,41 @@ class ServiceCardController extends Controller
 {
 	public function index()
 	{
-		$serviceCards = ServiceCard::with('translations')->get();
+		try {
+			$serviceCards = ServiceCard::with('translations')->get();
 
-		return response()->json([
-			'message' => __('messages.retrieved_successfully'),
-			'data' => $serviceCards
-		], 200);
+			return response()->json([
+				'message' => __('messages.retrieved_successfully'),
+				'data' => $serviceCards
+			], 200);
+		} catch (\Exception $e) {
+			return response()->json([
+				'message' => $e->getMessage(),
+				'status' => 500
+			], 500);
+		}
 	}
 
 	public function show($id)
 	{
-		$serviceCard = ServiceCard::with('translations')->find($id);
+		try {
+			$serviceCard = ServiceCard::with('translations')->find($id);
 
-		if (!$serviceCard) {
+			if (!$serviceCard) {
+				return response()->json([
+					'message' => __('messages.not_found')
+				], 404);
+			}
+
 			return response()->json([
-				'message' => __('messages.not_found')
-			], 404);
+				'message' => __('messages.retrieved_successfully'),
+				'data' => $serviceCard
+			], 200);
+		} catch (\Exception $e) {
+			return response()->json([
+				'message' => $e->getMessage(),
+				'status' => 500
+			], 500);
 		}
-
-		return response()->json([
-			'message' => __('messages.retrieved_successfully'),
-			'data' => $serviceCard
-		], 200);
 	}
 }
