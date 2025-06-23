@@ -26,7 +26,6 @@ class TourItineraryTranslationController extends Controller
 		];
 
 		$queryModifier = function ($query, $request) {
-      $query->whereNull('deleted_at');
 			if ($search = $request->query('search')) {
 				$query->where(function ($q) use ($search) {
 					$q->where('title', 'like', "%{$search}%")
@@ -73,9 +72,7 @@ class TourItineraryTranslationController extends Controller
 
 	public function show($id)
 	{
-		$translation = TourItineraryTranslation::with('itinerary') ->where('id', $id)
-                               ->whereNull('deleted_at')
-                               ->first();
+		$translation = TourItineraryTranslation::with('itinerary')->find($id);
 
 		if (!$translation) {
 			return sendResponse(__('messages.not_found'), 404);
@@ -122,7 +119,7 @@ class TourItineraryTranslationController extends Controller
 	}
 
 
-	/* public function trashed(Request $request)
+	public function trashed(Request $request)
 	{
 		$relationships = [
 			'include_itinerary' => 'itinerary:id,tour_id,day_number',
@@ -156,7 +153,7 @@ class TourItineraryTranslationController extends Controller
 		$data = $this->paginateResources($request, $relationships, 15, true, $queryModifier);
 
 		return sendResponse(__('messages.trashed_retrieved_successfully'), 200, $data);
-	} */
+	}
 
 
 	public function restore($id)

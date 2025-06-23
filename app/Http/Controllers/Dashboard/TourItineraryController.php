@@ -27,7 +27,6 @@ class TourItineraryController extends Controller
 		];
 
 		$queryModifier = function ($query, $request) {
-      $query->whereNull('deleted_at');
 			// Search by translation title or description
 			if ($search = $request->query('search')) {
 				$query->whereHas('translations', function ($q) use ($search) {
@@ -96,19 +95,17 @@ class TourItineraryController extends Controller
 
 		return sendResponse(__('messages.created_successfully'), 201, $itinerary->load('translations', 'tour'));
 	}
-public function show($id)
-{
-    $itinerary = TourItinerary::with('translations', 'tour')
-                               ->where('id', $id)
-                               ->whereNull('deleted_at')
-                               ->first();
 
-    if (!$itinerary) {
-        return sendResponse(__('messages.not_found'), 404);
-    }
+	public function show($id)
+	{
+		$itinerary = TourItinerary::with('translations', 'tour')->find($id);
 
-    return sendResponse(__('messages.retrieved_successfully'), 200, $itinerary);
-}
+		if (!$itinerary) {
+			return sendResponse(__('messages.not_found'), 404);
+		}
+
+		return sendResponse(__('messages.retrieved_successfully'), 200, $itinerary);
+	}
 
 	public function update(Request $request, $id)
 	{
@@ -173,7 +170,7 @@ public function show($id)
 		return sendResponse(__('messages.deleted_successfully'), 200);
 	}
 
-	/* public function trashed(Request $request)
+	public function trashed(Request $request)
 	{
 		$relationships = [
 			'include_tour' => 'tour:id,duration,price,type,availability',
@@ -209,7 +206,7 @@ public function show($id)
 
 		return sendResponse(__('messages.trashed_retrieved_successfully'), 200, $data);
 	}
- */
+
 	public function restore($id)
 	{
 		$itinerary = TourItinerary::onlyTrashed()->find($id);
