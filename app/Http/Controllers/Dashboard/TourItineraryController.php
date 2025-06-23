@@ -96,17 +96,19 @@ class TourItineraryController extends Controller
 
 		return sendResponse(__('messages.created_successfully'), 201, $itinerary->load('translations', 'tour'));
 	}
+public function show($id)
+{
+    $itinerary = TourItinerary::with('translations', 'tour')
+                               ->where('id', $id)
+                               ->whereNull('deleted_at') 
+                               ->first();
 
-	public function show($id)
-	{
-		$itinerary = TourItinerary::with('translations', 'tour')->find($id);
+    if (!$itinerary) {
+        return sendResponse(__('messages.not_found'), 404);
+    }
 
-		if (!$itinerary) {
-			return sendResponse(__('messages.not_found'), 404);
-		}
-
-		return sendResponse(__('messages.retrieved_successfully'), 200, $itinerary);
-	}
+    return sendResponse(__('messages.retrieved_successfully'), 200, $itinerary);
+}
 
 	public function update(Request $request, $id)
 	{
