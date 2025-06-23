@@ -100,7 +100,7 @@ public function show($id)
 {
     $itinerary = TourItinerary::with('translations', 'tour')
                                ->where('id', $id)
-                               ->whereNull('deleted_at') 
+                               ->whereNull('deleted_at')
                                ->first();
 
     if (!$itinerary) {
@@ -173,7 +173,7 @@ public function show($id)
 		return sendResponse(__('messages.deleted_successfully'), 200);
 	}
 
-	public function trashed(Request $request)
+/* 	public function trashed(Request $request)
 	{
 		$relationships = [
 			'include_tour' => 'tour:id,duration,price,type,availability',
@@ -208,7 +208,7 @@ public function show($id)
 		$data = $this->paginateResources($request, $relationships, 15, true, $queryModifier);
 
 		return sendResponse(__('messages.trashed_retrieved_successfully'), 200, $data);
-	}
+	} */
 
 	public function restore($id)
 	{
