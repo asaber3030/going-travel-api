@@ -73,7 +73,9 @@ class TourItineraryTranslationController extends Controller
 
 	public function show($id)
 	{
-		$translation = TourItineraryTranslation::with('itinerary')->find($id);
+		$translation = TourItineraryTranslation::with('itinerary') ->where('id', $id)
+                               ->whereNull('deleted_at')
+                               ->first();
 
 		if (!$translation) {
 			return sendResponse(__('messages.not_found'), 404);
@@ -120,7 +122,7 @@ class TourItineraryTranslationController extends Controller
 	}
 
 
-	public function trashed(Request $request)
+	/* public function trashed(Request $request)
 	{
 		$relationships = [
 			'include_itinerary' => 'itinerary:id,tour_id,day_number',
@@ -154,7 +156,7 @@ class TourItineraryTranslationController extends Controller
 		$data = $this->paginateResources($request, $relationships, 15, true, $queryModifier);
 
 		return sendResponse(__('messages.trashed_retrieved_successfully'), 200, $data);
-	}
+	} */
 
 
 	public function restore($id)
