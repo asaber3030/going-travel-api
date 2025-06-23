@@ -27,6 +27,7 @@ class TourItineraryController extends Controller
 		];
 
 		$queryModifier = function ($query, $request) {
+      $query->whereNull('deleted_at');
 			// Search by translation title or description
 			if ($search = $request->query('search')) {
 				$query->whereHas('translations', function ($q) use ($search) {

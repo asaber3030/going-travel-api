@@ -26,6 +26,7 @@ class TourItineraryTranslationController extends Controller
 		];
 
 		$queryModifier = function ($query, $request) {
+      $query->whereNull('deleted_at');
 			if ($search = $request->query('search')) {
 				$query->where(function ($q) use ($search) {
 					$q->where('title', 'like', "%{$search}%")
