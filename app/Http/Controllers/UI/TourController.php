@@ -86,7 +86,7 @@ class TourController extends Controller
 		$tour = Tour::with([
 			'highlights' => fn($q) => $q->select('id', 'tour_id', 'image'),
 			'reviews' => fn($q) => $q->select('id', 'client_name', 'rating', 'title', 'description', 'image', 'tour_id'),
-			'itineraries' => fn($q) => $q->select('id', 'tour_id', 'day_number', 'image', 'meals', 'overnight_location'),
+			'itineraries' => fn($q) => $q->select('id', 'tour_id', 'day_number', 'image', 'meals', 'overnight_location')->orderBy('day_number'),
 			'inclusions_exclusions' => fn($q) => $q->select('id', 'tour_id', 'type'),
 			'images' => fn($q) => $q->select('id', 'tour_id', 'image_url'),
 			'category' => fn($q) => $q->select('id', 'image'),

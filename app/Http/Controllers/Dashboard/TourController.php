@@ -311,7 +311,7 @@ class TourController extends Controller
 	{
 		$tour = Tour::find($id);
 		if (!$tour) return sendResponse(__('messages.not_found'), 404);
-		$itineraries = TourItinerary::withTrashed()->orderBy('deleted_at', 'asc')->with('translations')->where('tour_id', $id)->orderBy('day_number', 'asc')->get();
+		$itineraries = TourItinerary::with('translations')->where('tour_id', $id)->orderBy('day_number', 'asc')->get();
 		return sendResponse(__('messages.itineraries_retrieved_successfully'), 200, $itineraries);
 	}
 
