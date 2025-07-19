@@ -13,8 +13,13 @@ class HajController extends Controller
 {
 	public function index()
 	{
-		$haj = Haj::orderBy('id', 'desc')->paginate();
-		return sendResponse('Haj', 200, $haj);
+		$type = request()->query('type', '');
+		$haj = Haj::query()->orderBy('id', 'desc');
+		if ($type) {
+			$haj = $haj->where('type', $type);
+		}
+		$data = $haj->with('days')->paginate(10);
+		return sendResponse('Haj', 200, $data);
 	}
 
 	public function show($id)
@@ -34,10 +39,10 @@ class HajController extends Controller
 			'banner' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
 			'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
 			'hotel' => 'required|string|max:255',
-			'meals' => 'required|string|max:255',
 			'transportation_type' => 'required|string|max:255',
 			'depature_date' => 'required|date',
 			'return_date' => 'required|date',
+			'type' => 'required|string',
 			'notes' => 'required|string|max:1024',
 			'cautions' => 'required|string',
 		]);
@@ -72,9 +77,9 @@ class HajController extends Controller
 			'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
 			'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
 			'hotel' => 'sometimes|string|max:255',
-			'meals' => 'sometimes|string|max:255',
 			'transportation_type' => 'sometimes|string|max:255',
 			'depature_date' => 'sometimes|date',
+			'type' => 'required|string',
 			'return_date' => 'sometimes|date',
 			'notes' => 'sometimes|string|max:1024',
 			'cautions' => 'sometimes|string',

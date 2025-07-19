@@ -9,8 +9,13 @@ class HajController extends Controller
 {
   public function index()
   {
-    $haj = Haj::with('days')->orderBy('id', 'desc')->paginate();
-    return sendResponse('Haj', 200,  $haj);
+    $type = request()->query('type', '');
+    $haj = Haj::query()->orderBy('id', 'desc');
+    if ($type) {
+      $haj = $haj->where('type', $type);
+    }
+    $data = $haj->with('days')->paginate(10);
+    return sendResponse('Haj', 200, $data);
   }
 
   public function show($id)
